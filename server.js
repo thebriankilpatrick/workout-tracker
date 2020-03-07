@@ -5,7 +5,7 @@ const path = require("path");
 
 const PORT = process.env.PORT || 3000;
 
-// const db = require("./seeders");  ????
+const Workout = require("./models/workoutModel");
 
 const app = express();
 
@@ -20,6 +20,14 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/custommethods",
 
 app.get("/exercise", ({ body }, res) => {
     res.sendFile(path.join(__dirname + "/public/exercise.html"));
+});
+
+app.post("/api/workouts", ({ body }, res) => {
+    Workout.create(body).then(dbWorkout => {
+        res.json(dbWorkout);
+    }).catch(err => {
+        res.json(err);
+    });
 });
 
 app.listen(PORT, () => {
