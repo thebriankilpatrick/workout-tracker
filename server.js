@@ -22,7 +22,12 @@ app.get("/exercise", ({ body }, res) => {
     res.sendFile(path.join(__dirname + "/public/exercise.html"));
 });
 
-app.post("/api/workouts", ({ body }, res) => {
+app.get("/api/workouts", ({ body }, res) => {
+    res.sendFile(path.join(__dirname + "/public/index.html"));
+})
+
+// FIX ME
+app.post("/api/workouts/:id", ({ body }, res) => {
     Workout.create(body).then(dbWorkout => {
         res.json(dbWorkout);
     }).catch(err => {
