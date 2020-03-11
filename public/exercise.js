@@ -25,6 +25,7 @@ async function initExercise() {
     console.log(workout)
   }
   if (workout) {
+    alert("hey", workout)
     location.search = "?id=" + workout._id;
   }
 
@@ -117,7 +118,7 @@ async function handleFormSubmit(event) {
   await API.addExercise(workoutData);
   clearInputs();
   toast.classList.add("success");
-}
+};
 
 function handleToastAnimationEnd() {
   toast.removeAttribute("class");
