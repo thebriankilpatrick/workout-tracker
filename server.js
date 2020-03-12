@@ -27,7 +27,7 @@ app.get("/stats", (req, res) => {
 })
 
 app.put("/api/workouts/:id", (req , res) => {
-    console.log(req.body);
+    console.log(req.params.id);
     Workout.findOneAndUpdate( req.params.id, {
        type: req.body.type,
        name: req.body.name,
@@ -42,19 +42,12 @@ app.put("/api/workouts/:id", (req , res) => {
     })
 });
 
-// FIX ME
-app.post(`/api/workouts`, (req , res) => {
-
-    const workout = new Workout(req.body);
-
-    // workout.save(err => {
-    //     if (err) throw err;
-    //     res.send(workout);
-    // })
-    Workout.create(workout).then(dbWorkout => {
-        res.json(dbWorkout);
-    }).catch(err => {
-        res.json(err);
+// Something funky about workouts, and workout duration
+app.get(`/api/workouts`, (req , res) => {
+    Workout.find().sort({"created_at": -1}).limit(1).exec((err, data) => {
+        if (err) throw err;
+        console.log(data);
+        res.json(data);
     });
 });
 
