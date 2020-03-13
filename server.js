@@ -3,7 +3,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 const Workout = require("./models/workoutModel");
 
@@ -24,10 +24,13 @@ app.get("/exercise", ({ body }, res) => {
 
 app.get("/stats", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/stats.html"));
-})
+});
+
+app.post("/api/workouts", (req, res) => {
+    console.log(req.body.id);
+});
 
 app.put("/api/workouts/:id", (req , res) => {
-    console.log(req.params.id);
     Workout.findOneAndUpdate( req.params.id, {
        type: req.body.type,
        name: req.body.name,
@@ -48,6 +51,14 @@ app.get(`/api/workouts`, (req , res) => {
         if (err) throw err;
         console.log(data);
         res.json(data);
+    });
+});
+
+app.get("/api/workouts/range", (req, res) => {
+    Workout.find({}).then(dbWorkout => {
+        res.json(dbWorkout);
+    }).catch(err => {
+        res.json(err);
     });
 });
 
